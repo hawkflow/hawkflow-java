@@ -46,7 +46,7 @@ final class Validation {
 
     public static void validateProcess(String process) throws HawkFlowDataTypesException {
         if(process.length() > 249) {
-            throw new HawkFlowDataTypesException("HawkFlow API process parameter exceeded max length of 300.");
+            throw new HawkFlowDataTypesException("HawkFlow API process parameter exceeded max length of 250.");
         }
 
         if (!process.matches(pattern)) {
@@ -56,7 +56,7 @@ final class Validation {
 
     public static void validateMeta(String meta) throws HawkFlowDataTypesException {
         if(meta.length() > 499) {
-            throw new HawkFlowDataTypesException("HawkFlow API meta parameter exceeded max length of 300.");
+            throw new HawkFlowDataTypesException("HawkFlow API meta parameter exceeded max length of 500.");
         }
 
         if (!pattern.matches(meta)) {
