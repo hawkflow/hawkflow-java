@@ -19,7 +19,7 @@ public final class HawkFlowApi {
     private static final int MAX_RETRIES = 3;
     private static final int WAIT_TIME_SECONDS = 2;
 
-    public static void hawkflowMetrics(String process, String meta, ArrayList<HashMap<String, Float>> items, String apiKey) {
+    public static void metrics(String process, String meta, ArrayList<HashMap<String, Float>> items, String apiKey) {
         if(items == null) {
             items = new ArrayList<HashMap<String, Float>>();
         }
@@ -33,11 +33,11 @@ public final class HawkFlowApi {
         }
     }
 
-    public static void hawkflowMetrics(String process, String meta, ArrayList<HashMap<String, Float>> items) {
-        hawkflowMetrics(process, meta, items, "");
+    public static void metrics(String process, String meta, ArrayList<HashMap<String, Float>> items) {
+        metrics(process, meta, items, "");
     }
 
-    public static void hawkflow_exception(String process, String meta, String exceptionText, String apiKey) {
+    public static void exception(String process, String meta, String exceptionText, String apiKey) {
         try {
             String url = hawkFlowApiUrl + "/exception";
             JSONObject data = Endpoints.exceptionData(process, meta, exceptionText);
@@ -47,11 +47,11 @@ public final class HawkFlowApi {
         }
     }
 
-    public static void hawkflow_exception(String process, String meta, String exceptionText) {
-        hawkflow_exception(process, meta, exceptionText, "");
+    public static void exception(String process, String meta, String exceptionText) {
+        exception(process, meta, exceptionText, "");
     }
 
-    public static void hawkflow_start(String process, String meta, String uid, String apiKey) {
+    public static void start(String process, String meta, String uid, String apiKey) {
         try {
             String url = hawkFlowApiUrl + "/timed/start";
             JSONObject data = Endpoints.exceptionData(process, meta, uid);
@@ -61,11 +61,11 @@ public final class HawkFlowApi {
         }
     }
 
-    public static void hawkflow_start(String process, String meta, String uid) {
-        hawkflow_start(process, meta, uid, "");
+    public static void start(String process, String meta, String uid) {
+        start(process, meta, uid, "");
     }
 
-    public static void hawkflow_end(String process, String meta, String uid, String apiKey) {
+    public static void end(String process, String meta, String uid, String apiKey) {
         try {
             String url = hawkFlowApiUrl + "/timed/end";
             JSONObject data = Endpoints.exceptionData(process, meta, uid);
@@ -75,11 +75,11 @@ public final class HawkFlowApi {
         }
     }
 
-    public static void hawkflow_end(String process, String meta, String uid) {
-        hawkflow_end(process, meta, uid, "");
+    public static void end(String process, String meta, String uid) {
+        end(process, meta, uid, "");
     }
 
-    public static void hawkFlowPost(String url, JSONObject data, String apiKey) {
+    private static void hawkFlowPost(String url, JSONObject data, String apiKey) {
         try {
             Validation.validateApiKey(apiKey);
         } catch (Exception ex) {

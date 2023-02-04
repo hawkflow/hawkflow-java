@@ -90,7 +90,7 @@ final class Validation {
                 }
 
                 if(name.length() > 50) {
-                    throw new HawkFlowDataTypesException("HawkFlow API metric items parameter name exceeded max length of 50.");
+                    throw new HawkFlowDataTypesException("HawkFlow API metric items parameter hash name exceeded max length of 50.");
                 }
 
                 if (!name.matches(pattern)) {
