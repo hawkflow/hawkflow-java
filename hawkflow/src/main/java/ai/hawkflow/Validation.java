@@ -15,11 +15,11 @@ final class Validation {
             throw new HawkFlowNoApiKeyException();
         }
 
-        if (!apiKey.matches(pattern)) {
+        if (apiKey.length() > 50) {
             throw new HawkFlowApiKeyFormatException();
         }
 
-        if (apiKey.length() > 50) {
+        if (!apiKey.matches(pattern)) {
             throw new HawkFlowApiKeyFormatException();
         }
     }
