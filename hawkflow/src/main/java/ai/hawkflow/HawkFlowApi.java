@@ -100,60 +100,60 @@ public class HawkFlowApi {
 
     private void hawkFlowPost(String url, JSONObject data) {
         try {
-            Validation.validateApiKey(this.apiKey);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
+            this.apiKey = Validation.validateApiKey(this.apiKey);
 
-        int retries = 0;
-        boolean success = false;
+            int retries = 0;
+            boolean success = false;
 
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost(url);
-        StringEntity entity = null;
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpPost httpPost = new HttpPost(url);
+            StringEntity entity = null;
 
-        try {
-            entity = new StringEntity(data.toString());
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-
-        httpPost.setEntity(entity);
-        httpPost.setHeader("Content-type", "application/json");
-        httpPost.setHeader("hawkflow-api-key", this.apiKey);
-
-        while (retries < this.maxRetries && !success) {
             try {
-                CloseableHttpResponse response = httpClient.execute(httpPost);
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    success = true;
-                    String responseBody = EntityUtils.toString(response.getEntity());
-                    System.out.println("Successful response: " + responseBody);
-                } else {
-                    System.out.println("Failed with status code: " + response.getStatusLine().getStatusCode());
-                }
-            } catch (ClientProtocolException e) {
-                System.out.println("Client protocol exception: " + e.getMessage());
-                e.printStackTrace();
-            } catch (IOException e) {
-                System.out.println("IOException: " + e.getMessage());
-                e.printStackTrace();
+                entity = new StringEntity(data.toString());
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
             }
-            if (!success) {
-                retries++;
-                if (retries < this.maxRetries) {
-                    System.out.println("Retrying... (attempt " + retries + " of " + this.maxRetries + ")");
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(this.waitTime);
-                    } catch (InterruptedException e) {
-                        System.out.println("InterruptedException: " + e.getMessage());
-                        e.printStackTrace();
+
+            httpPost.setEntity(entity);
+            httpPost.setHeader("Content-type", "application/json");
+            httpPost.setHeader("hawkflow-api-key", this.apiKey);
+
+            while (retries < this.maxRetries && !success) {
+                try {
+                    CloseableHttpResponse response = httpClient.execute(httpPost);
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        success = true;
+                        String responseBody = EntityUtils.toString(response.getEntity());
+                        System.out.println("Successful response: " + responseBody);
+                    } else {
+                        System.out.println("Failed with status code: " + response.getStatusLine().getStatusCode());
+                    }
+                } catch (ClientProtocolException e) {
+                    System.out.println("Client protocol exception: " + e.getMessage());
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    System.out.println("IOException: " + e.getMessage());
+                    e.printStackTrace();
+                }
+                if (!success) {
+                    retries++;
+                    if (retries < this.maxRetries) {
+                        System.out.println("Retrying... (attempt " + retries + " of " + this.maxRetries + ")");
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(this.waitTime);
+                        } catch (InterruptedException e) {
+                            System.out.println("InterruptedException: " + e.getMessage());
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
-        }
-        if (!success) {
-            System.out.println("Failed after maximum number of retries");
+            if (!success) {
+                System.out.println("Failed after maximum number of retries");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
     }
 }

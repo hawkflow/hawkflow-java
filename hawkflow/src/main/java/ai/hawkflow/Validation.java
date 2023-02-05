@@ -6,7 +6,7 @@ import java.util.Map;
 
 final class Validation {
     private static final String pattern = "[a-zA-Z0-9_-]+";
-    public static void validateApiKey(String apiKey) throws HawkFlowNoApiKeyException, HawkFlowApiKeyFormatException {
+    public static String validateApiKey(String apiKey) throws HawkFlowNoApiKeyException, HawkFlowApiKeyFormatException {
         if(apiKey == null || apiKey.equals("")) {
             apiKey = System.getenv("HAWKFLOW_API_KEY");
         }
@@ -22,6 +22,8 @@ final class Validation {
         if (!apiKey.matches(pattern)) {
             throw new HawkFlowApiKeyFormatException();
         }
+
+        return apiKey;
     }
 
     public static void validateTimedData(String process, String meta, String uid) throws HawkFlowDataTypesException {
