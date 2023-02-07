@@ -5,7 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 final class Validation {
+    /**
+     * format pattern check regex
+     */
     private static final String pattern = "[a-zA-Z0-9_-]+";
+
+    /**
+     * @param apiKey
+     * @return
+     * @throws HawkFlowNoApiKeyException
+     * @throws HawkFlowApiKeyFormatException
+     */
     public static String validateApiKey(String apiKey) throws HawkFlowNoApiKeyException, HawkFlowApiKeyFormatException {
         if(apiKey == null || apiKey.equals("")) {
             apiKey = System.getenv("HAWKFLOW_API_KEY");
@@ -26,26 +36,53 @@ final class Validation {
         return apiKey;
     }
 
+    /**
+     * @param process
+     * @param meta
+     * @param uid
+     * @throws HawkFlowDataTypesException
+     */
     public static void validateTimedData(String process, String meta, String uid) throws HawkFlowDataTypesException {
         validateCore(process, meta);
         validateUid(uid);
     }
 
+    /**
+     * @param process
+     * @param meta
+     * @param items
+     * @throws HawkFlowDataTypesException
+     */
     public static void validateMetricData(String process, String meta, ArrayList<HashMap<String, Float>> items) throws HawkFlowDataTypesException {
         validateCore(process, meta);
         validateMetricItems(items);
     }
 
+    /**
+     * @param process
+     * @param meta
+     * @param exceptionText
+     * @throws HawkFlowDataTypesException
+     */
     public static void validateExceptionData(String process, String meta, String exceptionText) throws HawkFlowDataTypesException {
         validateCore(process, meta);
         validateExceptionText(exceptionText);
     }
 
+    /**
+     * @param process
+     * @param meta
+     * @throws HawkFlowDataTypesException
+     */
     public static void validateCore(String process, String meta) throws HawkFlowDataTypesException {
         validateProcess(process);
         validateMeta(meta);
     }
 
+    /**
+     * @param process
+     * @throws HawkFlowDataTypesException
+     */
     public static void validateProcess(String process) throws HawkFlowDataTypesException {
         if(process.length() > 249) {
             throw new HawkFlowDataTypesException("HawkFlow API process parameter exceeded max length of 250.");
@@ -56,6 +93,10 @@ final class Validation {
         }
     }
 
+    /**
+     * @param meta
+     * @throws HawkFlowDataTypesException
+     */
     public static void validateMeta(String meta) throws HawkFlowDataTypesException {
         if(meta.length() > 499) {
             throw new HawkFlowDataTypesException("HawkFlow API meta parameter exceeded max length of 500.");
@@ -66,6 +107,10 @@ final class Validation {
         }
     }
 
+    /**
+     * @param uid
+     * @throws HawkFlowDataTypesException
+     */
     public static void validateUid(String uid) throws HawkFlowDataTypesException {
         if(uid.length() > 50) {
             throw new HawkFlowDataTypesException("HawkFlow API uid parameter exceeded max length of 50.");
@@ -76,12 +121,20 @@ final class Validation {
         }
     }
 
+    /**
+     * @param exceptionText
+     * @throws HawkFlowDataTypesException
+     */
     public static void validateExceptionText(String exceptionText) throws HawkFlowDataTypesException {
         if(exceptionText.length() > 15000) {
             throw new HawkFlowDataTypesException("HawkFlow API exceptionText parameter exceeded max length of 15000.");
         }
     }
 
+    /**
+     * @param items
+     * @throws HawkFlowDataTypesException
+     */
     public static void validateMetricItems(ArrayList<HashMap<String, Float>> items) throws HawkFlowDataTypesException {
         for (HashMap<String, Float> map : items) {
             for (Map.Entry<String, Float> entry : map.entrySet()) {

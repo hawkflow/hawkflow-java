@@ -4,7 +4,7 @@
   <groupId>ai.hawkflow</groupId>
   <artifactId>hawkflow-client</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1-SNAPSHOT</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>HawkFlow.ai Maven package for sending data to your HawkFlow.ai account</description>
   <url>https://github.com/hawkflow/hawkflow-java</url>
@@ -19,9 +19,9 @@
 
   <developers>
     <developer>
-      <id>dsibilio</id>
-      <name>Domenico Sibilio</name>
-      <email>domenicosibilio@gmail.com</email>
+      <id>felbus</id>
+      <name>Paul Felby</name>
+      <email>paul@hawkflow.ai</email>
     </developer>
   </developers>
 
@@ -66,6 +66,11 @@
       <artifactId>httpclient</artifactId>
       <version>4.5.13</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-gpg-plugin</artifactId>
+      <version>1.6</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -86,7 +91,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.4.1</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>

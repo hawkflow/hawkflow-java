@@ -14,26 +14,57 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * HawkFlowApi
+ */
 public class HawkFlowApi {
+    /**
+     * hawkflow.ai api endpoint
+     */
     private static final String hawkFlowApiUrl = "https://api.hawkflow.ai/v1";
+    /**
+     * your apikey
+     */
     public String apiKey = "";
+    /**
+     * number of retries to send data
+     */
     public int maxRetries = 3;
+    /**
+     * time to wait in milliseconds
+     */
     public int waitTime = 100;
 
+    /**
+     * @param apiKey your apikey
+     * @param maxRetries number of retries to send data
+     * @param waitTime time to wait in milliseconds
+     */
     public HawkFlowApi(String apiKey, int maxRetries, int waitTime) {
         this.apiKey = apiKey;
         this.maxRetries = maxRetries;
         this.waitTime = waitTime;
     }
 
+    /**
+     * @param apiKey your apikey
+     */
     public HawkFlowApi(String apiKey) {
         this.apiKey = apiKey;
     }
 
+    /**
+     * HawkFlowApi
+     */
     public HawkFlowApi() {
         this.apiKey = "";
     }
 
+    /**
+     * @param process the process name
+     * @param meta the meta name
+     * @param items the metric items
+     */
     public void metrics(String process, String meta, ArrayList<HashMap<String, Float>> items) {
         if(items == null) {
             items = new ArrayList<HashMap<String, Float>>();
@@ -48,6 +79,11 @@ public class HawkFlowApi {
         }
     }
 
+    /**
+     * @param process the process name
+     * @param meta the meta name
+     * @param exceptionText
+     */
     public void exception(String process, String meta, String exceptionText) {
         try {
             String url = hawkFlowApiUrl + "/exception";
@@ -58,6 +94,11 @@ public class HawkFlowApi {
         }
     }
 
+    /**
+     * @param process the process name
+     * @param meta the meta name
+     * @param uid the uid if you are sending duplicate process meta at the same time
+     */
     public void start(String process, String meta, String uid) {
         try {
             String url = hawkFlowApiUrl + "/timed/start";
@@ -68,16 +109,28 @@ public class HawkFlowApi {
         }
     }
 
+    /**
+     * @param process the process name
+     * @param meta the meta name
+     */
     public void start(String process, String meta)
     {
         this.start(process, meta, "");
     }
 
+    /**
+     * @param process the process name
+     */
     public void start(String process)
     {
         this.start(process, "", "");
     }
 
+    /**
+     * @param process the process name
+     * @param meta the meta name
+     * @param uid the uid if you are sending duplicate process meta at the same time
+     */
     public void end(String process, String meta, String uid) {
         try {
             String url = hawkFlowApiUrl + "/timed/end";
@@ -88,16 +141,27 @@ public class HawkFlowApi {
         }
     }
 
+    /**
+     * @param process the process name
+     * @param meta the meta name
+     */
     public void end(String process, String meta)
     {
         this.end(process, meta, "");
     }
 
+    /**
+     * @param process the process name
+     */
     public void end(String process)
     {
         this.end(process, "", "");
     }
 
+    /**
+     * @param url the url of the endpoint
+     * @param data the json data
+     */
     private void hawkFlowPost(String url, JSONObject data) {
         try {
             this.apiKey = Validation.validateApiKey(this.apiKey);

@@ -9,6 +9,13 @@ import java.util.Map;
 import java.util.HashMap;
 
 final class Endpoints {
+    /**
+     * @param process the process name
+     * @param meta the meta name
+     * @param uid the uid if you are sending duplicate process meta at the same time
+     * @return
+     * @throws HawkFlowDataTypesException
+     */
     public static JSONObject timedData(String process, String meta, String uid) throws HawkFlowDataTypesException {
         Validation.validateTimedData(process, meta, uid);
 
@@ -19,6 +26,13 @@ final class Endpoints {
         return map;
     }
 
+    /**
+     * @param process the process name
+     * @param meta the meta name
+     * @param items the items for metrics api
+     * @return
+     * @throws HawkFlowDataTypesException
+     */
     public static JSONObject metricData(String process, String meta, ArrayList<HashMap<String, Float>> items) throws HawkFlowDataTypesException {
         Validation.validateMetricData(process, meta, items);
 
@@ -43,6 +57,13 @@ final class Endpoints {
         return jsonObject;
     }
 
+    /**
+     * @param process the process name
+     * @param meta the meta name
+     * @param exceptionText the exception text
+     * @return
+     * @throws HawkFlowDataTypesException
+     */
     public static JSONObject exceptionData(String process, String meta, String exceptionText) throws HawkFlowDataTypesException {
         Validation.validateExceptionData(process, meta, exceptionText);
 
