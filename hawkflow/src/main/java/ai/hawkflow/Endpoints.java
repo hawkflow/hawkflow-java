@@ -33,28 +33,24 @@ final class Endpoints {
      * @return
      * @throws HawkFlowDataTypesException
      */
-    public static JSONObject metricData(String process, String meta, ArrayList<HashMap<String, Float>> items) throws HawkFlowDataTypesException {
+    public static JSONObject metricData(String process, String meta, HashMap<String, Float> items) throws HawkFlowDataTypesException {
         Validation.validateMetricData(process, meta, items);
 
-        JSONArray jsonArray = new JSONArray();
-        for (HashMap<String, Float> map : items) {
-            JSONObject jsonObject = new JSONObject();
-            for (Map.Entry<String, Float> entry : map.entrySet()) {
-                try {
-                    jsonObject.put(entry.getKey(), entry.getValue());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        JSONObject jsonObject = new JSONObject();
+        for (Map.Entry<String, Float> entry : items.entrySet()) {
+            try {
+                jsonObject.put(entry.getKey(), entry.getValue());
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            jsonArray.put(jsonObject);
         }
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("process", process);
-        jsonObject.put("meta", meta);
-        jsonObject.put("items", jsonArray);
+        JSONObject data = new JSONObject();
+        data.put("process", process);
+        data.put("meta", meta);
+        data.put("items", jsonObject);
 
-        return jsonObject;
+        return data;
     }
 
     /**

@@ -53,7 +53,7 @@ final class Validation {
      * @param items
      * @throws HawkFlowDataTypesException
      */
-    public static void validateMetricData(String process, String meta, ArrayList<HashMap<String, Float>> items) throws HawkFlowDataTypesException {
+    public static void validateMetricData(String process, String meta, HashMap<String, Float> items) throws HawkFlowDataTypesException {
         validateCore(process, meta);
         validateMetricItems(items);
     }
@@ -132,25 +132,31 @@ final class Validation {
     }
 
     /**
+     * @param value the metric items dict value
+     * @return true or false
+     */
+    private static boolean isIntOrFloat(Object value) {
+        return (value instanceof Integer || value instanceof Float);
+    }
+
+    /**
      * @param items
      * @throws HawkFlowDataTypesException
      */
-    public static void validateMetricItems(ArrayList<HashMap<String, Float>> items) throws HawkFlowDataTypesException {
-        for (HashMap<String, Float> map : items) {
-            for (Map.Entry<String, Float> entry : map.entrySet()) {
-                String name = entry.getKey();
+    public static void validateMetricItems(HashMap<String, Float> items) throws HawkFlowDataTypesException {
+        for (Map.Entry<String, Float> entry : items.entrySet()) {
+            String name = entry.getKey();
 
-                if(name != "name") {
-                    throw new HawkFlowDataTypesException("HawkFlow API metric items parameter HashMap key must be called 'name'.");
-                }
+            if(name.length() > 50) {
+                throw new HawkFlowDataTypesException("HawkFlow API metric items parameter hash name exceeded max length of 50.");
+            }
 
-                if(name.length() > 50) {
-                    throw new HawkFlowDataTypesException("HawkFlow API metric items parameter hash name exceeded max length of 50.");
-                }
+            if (!name.matches(pattern)) {
+                throw new HawkFlowDataTypesException("HawkFlow API metric items parameter name is in incorrect format.");
+            }
 
-                if (!name.matches(pattern)) {
-                    throw new HawkFlowDataTypesException("HawkFlow API metric items parameter name is in incorrect format.");
-                }
+            if (!isIntOrFloat(entry.getValue())) {
+                throw new HawkFlowDataTypesException("HawkFlow API metric items parameter name is in incorrect format.");
             }
         }
     }

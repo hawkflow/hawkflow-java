@@ -65,9 +65,9 @@ public class HawkFlowApi {
      * @param meta the meta name
      * @param items the metric items
      */
-    public void metrics(String process, String meta, ArrayList<HashMap<String, Float>> items) {
+    public void metrics(String process, String meta, HashMap<String, Float> items) {
         if(items == null) {
-            items = new ArrayList<HashMap<String, Float>>();
+            items = new HashMap<String, Float>();
         }
 
         try {
